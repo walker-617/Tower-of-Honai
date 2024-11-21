@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Tower of Hanoi</title>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="title">Tower of Hanoi</div>
+        <div class="num-of-discs-container" id="num-of-discs-container">
+            <div class="num-of-discs" id="num-of-discs">Number of discs : </div>
+            <div class="num-of-discs-input" id="num-of-discs-input">
+                <div class="discs-values" id="3-discs" onclick=handleNumOfDiscsClick(3)>3</div>
+                <div class="discs-values" id="4-discs" onclick=handleNumOfDiscsClick(4)>4</div>
+                <div class="discs-values" id="5-discs" onclick=handleNumOfDiscsClick(5)>5</div>
+                <div class="discs-values" id="6-discs" onclick=handleNumOfDiscsClick(6)>6</div>
+                <div class="discs-values" id="7-discs" onclick=handleNumOfDiscsClick(7)>7</div>
+
+            </div>
+        </div>
+        <div class="move-info" id="move-info"></div>
+        <div class="game-container" id="game-container">
+            <div class="tower-container" id="tower-container-1" onclick=handleTowerClick(1)>
+                <div class="tower" id="tower-1"></div>
+                <div class="base"></div>
+            </div>
+            <div class="tower-container" id="tower-container-2" onclick=handleTowerClick(2)>
+                <div class="tower" id="tower-2"></div>
+                <div class="base"></div>
+            </div>
+            <div class="tower-container" id="tower-container-3" onclick=handleTowerClick(3)>
+                <div class="tower" id="tower-3"></div>
+                <div class="base"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
