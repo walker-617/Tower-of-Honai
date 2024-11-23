@@ -8,8 +8,9 @@ const towers = [
 ];
 const numOfDiscsPossible = [1, 2, 3, 4, 5, 6, 7];
 let totalMoves = 0;
+let startTime = null;
 
-function setGameConatinerHeight() {
+function setGameContainerHeight() {
   const gameContainerElement = document.getElementById("game-container");
   gameContainerElement.style.height = `${(totalDisks + 1) * 25}px`;
 
@@ -38,20 +39,19 @@ function updateTowerDisks(towerId) {
 }
 
 function clearAllTowers() {
-  towers[0].length = 0;
-  towers[1].length = 0;
-  towers[2].length = 0;
-  towers[3].length = 0;
+  towers[0] = [];
+  towers[1] = [];
+  towers[2] = [];
+  towers[3] = [];
 }
 
 function createInitialTowers() {
-  for (let i = 0; i <= totalDisks; i++) {
-    towers.push([]);
-  }
   for (let i = totalDisks; i >= 1; i--) {
     towers[0].push(i);
     towers[1].push(i);
   }
+  towers[2] = [];
+  towers[3] = [];
 }
 
 function handleNumOfDiscsClick(numOfDiscs) {
@@ -68,12 +68,12 @@ function setBaseWidth() {
 
 function updateNumOfDisksButtons(totalDisks) {
   numOfDiscsPossible.forEach((num) => {
-    const y = document.getElementById(`${num}-discs`);
-    y.style.backgroundColor = "white";
-    y.style.color = "black";
+    const button = document.getElementById(`${num}-discs`);
+    button.style.backgroundColor = "white";
+    button.style.color = "black";
     if (num === totalDisks) {
-      y.style.backgroundColor = "black";
-      y.style.color = "white";
+      button.style.backgroundColor = "black";
+      button.style.color = "white";
     }
   });
 }
@@ -81,31 +81,32 @@ function updateNumOfDisksButtons(totalDisks) {
 function initializeGame() {
   pickingTower = null;
   totalMoves = 0;
+  startTime = null;
   const gameContainer = document.getElementById("game-container");
   gameContainer.style.display = "flex";
   const winGameContainer = document.getElementById("win-game-container");
   winGameContainer.style.display = "none";
-  changeOpacityOfTower(1, 1);
-  changeOpacityOfTower(2, 1);
-  changeOpacityOfTower(3, 1);
+  setOpacityForAllTowers(1);
   updateNumOfDisksButtons(totalDisks);
-  setGameConatinerHeight();
+  setGameContainerHeight();
   setBaseWidth();
   clearAllTowers();
   createInitialTowers();
-  updateTowerDisks(1);
-  updateTowerDisks(2);
-  updateTowerDisks(3);
+  updateAllTowers();
 }
 
 function popFromTower(towerId) {
-  const towerDisks = towers[towerId];
-  return towerDisks.pop();
+  return towers[towerId].pop();
 }
 
 function pushToTower(towerId, diskNumber) {
-  const towerDisks = towers[towerId];
-  towerDisks.push(diskNumber);
+  towers[towerId].push(diskNumber);
+}
+
+function setOpacityForAllTowers(opacity) {
+  for (let i = 1; i <= 3; i++) {
+    changeOpacityOfTower(i, opacity);
+  }
 }
 
 function changeOpacityOfTower(towerId, opacity) {
@@ -136,30 +137,28 @@ function isWin() {
 }
 
 function handleTowerClick(towerId) {
+  if (startTime === null) {
+    startTime = new Date();
+  }
   if (pickingTower === null) {
     if (towers[towerId].length === 0) {
-      // condition where he clicks empty tower
       displayMessage("Tower is empty. Please select other tower.", "red");
     } else {
-      // setting picking tower and disabling it
       pickingTower = towerId;
       changeOpacityOfTower(pickingTower, 0.5);
     }
   } else if (pickingTower !== towerId) {
-    // if the picking tower is set and he selects other tower to drop
-    // check if it is valide move or not
     if (isValidMove(pickingTower, towerId)) {
-      const droppingTower = towerId;
-
       const poppedDiskNumber = popFromTower(pickingTower);
       updateTowerDisks(pickingTower);
 
-      pushToTower(droppingTower, poppedDiskNumber);
-      updateTowerDisks(droppingTower);
+      pushToTower(towerId, poppedDiskNumber);
+      updateTowerDisks(towerId);
 
-      totalMoves = totalMoves + 1;
+      totalMoves += 1;
       changeOpacityOfTower(pickingTower, 1);
       pickingTower = null;
+
       if (isWin()) {
         const gameContainer = document.getElementById("game-container");
         gameContainer.style.display = "none";
@@ -167,19 +166,16 @@ function handleTowerClick(towerId) {
         const winGameContainer = document.getElementById("win-game-container");
         winGameContainer.style.display = "flex";
 
-        const numOfMovesElement = document.getElementById("num-of-moves");
-        numOfMovesElement.textContent = totalMoves;
-
-        const minMovesElement = document.getElementById("min-moves");
-        minMovesElement.textContent = 2 ** totalDisks - 1;
+        document.getElementById("num-of-moves").textContent = totalMoves;
+        document.getElementById("min-moves").textContent = 2 ** totalDisks - 1;
+        document.getElementById("time-taken").textContent =
+          Math.round(((new Date() - startTime) / 1000) * 100) / 100;
 
         updateTowerDisks(0);
 
         if (totalMoves === 2 ** totalDisks - 1) {
           displayMessage(
-            "Congratulations! You have completed the game in " +
-              totalMoves +
-              " moves",
+            "Congratulations! You have completed the game in minimum moves",
             "green"
           );
         }
@@ -190,10 +186,46 @@ function handleTowerClick(towerId) {
       displayMessage("Invalid move. Please select other tower.", "red");
     }
   } else {
-    // if the user is clicking on the same tower
     pickingTower = null;
     changeOpacityOfTower(towerId, 1);
   }
 }
+
+function updateAllTowers() {
+  for (let i = 1; i <= 3; i++) {
+    updateTowerDisks(i);
+  }
+}
+
+document
+  .getElementById("restart-button")
+  .addEventListener("click", initializeGame);
+
+document
+  .getElementById("num-of-discs-container")
+  .addEventListener("click", (event) => {
+    if (event.target.classList.contains("discs-values")) {
+      handleNumOfDiscsClick(parseInt(event.target.dataset.value));
+    }
+  });
+
+document.getElementById("game-container").addEventListener("click", (event) => {
+  const tower = event.target.closest(".tower-container");
+  if (tower) {
+    handleTowerClick(parseInt(tower.dataset.towerId));
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "1") {
+    handleTowerClick(1);
+  } else if (event.key === "2") {
+    handleTowerClick(2);
+  } else if (event.key === "3") {
+    handleTowerClick(3);
+  } else if (event.key === "r") {
+    initializeGame();
+  }
+});
 
 initializeGame();

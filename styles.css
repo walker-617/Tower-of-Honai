@@ -9,7 +9,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 25px;
     margin-bottom: 100px;
 }
 
@@ -26,7 +26,6 @@ body {
 
 .num-of-discs-container {
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 20px;
     margin-top: 50px;
@@ -64,13 +63,13 @@ body {
     color: black;
     opacity: 0.75;
     height: 20px;
-    margin-top: 75px;
+    margin-top: 50px;
 }
 
 .game-container {
     display: flex;
     gap: 100px;
-    margin-top: 25px;
+    margin-top: 50px;
     max-width: 100%;
     overflow-x: auto;
 }
@@ -123,7 +122,8 @@ body {
 }
 
 .num-of-moves-container,
-.min-moves-container {
+.min-moves-container,
+.time-taken-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -131,7 +131,8 @@ body {
 }
 
 .num-of-moves-value,
-.min-moves-value {
+.min-moves-value,
+.time-taken-value {
     font-size: 20px;
 }
 
@@ -157,12 +158,18 @@ body {
     border: 2px solid black;
     padding: 20px;
     border-radius: 10px;
-    margin-top: 100px;
-    margin: 10px;
+    margin-top: 25px;
 }
 
 .game-rules-title {
     font-size: 25px;
+}
+
+.imp-rule-info {
+    background-color: lightgrey;
+    padding: 5px;
+    font-weight: bold;
+    border-radius: 5px;
 }
 
 .game-rules {

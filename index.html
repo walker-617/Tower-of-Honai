@@ -12,66 +12,73 @@
     <div class="title">Tower of Hanoi</div>
     <div class="main-container">
         <div class="num-of-discs-container" id="num-of-discs-container">
-            <div class="num-of-discs" id="num-of-discs">Number of discs : </div>
-            <div class="num-of-discs-input" id="num-of-discs-input">
-                <div class="discs-values" id="1-discs" onclick=handleNumOfDiscsClick(1)>1</div>
-                <div class="discs-values" id="2-discs" onclick=handleNumOfDiscsClick(2)>2</div>
-                <div class="discs-values" id="3-discs" onclick=handleNumOfDiscsClick(3)>3</div>
-                <div class="discs-values" id="4-discs" onclick=handleNumOfDiscsClick(4)>4</div>
-                <div class="discs-values" id="5-discs" onclick=handleNumOfDiscsClick(5)>5</div>
-                <div class="discs-values" id="6-discs" onclick=handleNumOfDiscsClick(6)>6</div>
-                <div class="discs-values" id="7-discs" onclick=handleNumOfDiscsClick(7)>7</div>
-
+            <div class="num-of-discs">Number of discs:</div>
+            <div class="num-of-discs-input">
+                <div class="discs-values" id="1-discs" data-value="1">1</div>
+                <div class="discs-values" id="2-discs" data-value="2">2</div>
+                <div class="discs-values" id="3-discs" data-value="3">3</div>
+                <div class="discs-values" id="4-discs" data-value="4">4</div>
+                <div class="discs-values" id="5-discs" data-value="5">5</div>
+                <div class="discs-values" id="6-discs" data-value="6">6</div>
+                <div class="discs-values" id="7-discs" data-value="7">7</div>
             </div>
         </div>
-        <div class="move-info" id="move-info"></div>
+        <div class="move-info" id="move-info" aria-live="polite"></div>
         <div class="game-container" id="game-container">
-            <div class="tower-container" id="tower-container-1" onclick=handleTowerClick(1)>
-                <div class="tower" id="tower-1"></div>
+            <div class="tower-container" id="tower-container-1" data-tower-id="1">
+                <div class="tower" id="tower-1" aria-label="Tower 1"></div>
                 <div class="base"></div>
             </div>
-            <div class="tower-container" id="tower-container-2" onclick=handleTowerClick(2)>
-                <div class="tower" id="tower-2"></div>
+            <div class="tower-container" id="tower-container-2" data-tower-id="2">
+                <div class="tower" id="tower-2" aria-label="Tower 2"></div>
                 <div class="base"></div>
             </div>
-            <div class="tower-container" id="tower-container-3" onclick=handleTowerClick(3)>
-                <div class="tower" id="tower-3"></div>
+            <div class="tower-container" id="tower-container-3" data-tower-id="3">
+                <div class="tower" id="tower-3" aria-label="Tower 3"></div>
                 <div class="base"></div>
             </div>
         </div>
         <div class="win-game-container" id="win-game-container">
-            <div class="tower-container" id="tower-container-win">
-                <div class="tower" id="tower-0"></div>
+            <div class="tower-container">
+                <div class="tower" id="tower-0" aria-label="Win Tower"></div>
                 <div class="base"></div>
             </div>
             <div class="result-container">
                 <div class="num-of-moves-container">
-                    <div class="num-of-moves">Total moves : </div>
+                    <div class="num-of-moves">Total moves :</div>
                     <div class="num-of-moves-value" id="num-of-moves"></div>
                 </div>
                 <div class="min-moves-container">
-                    <div class="min-moves">Minimum moves : </div>
+                    <div class="min-moves">Minimum moves :</div>
                     <div class="min-moves-value" id="min-moves"></div>
+                </div>
+                <div class="time-taken-container">
+                    <div class="time-taken">Time taken(s) :</div>
+                    <div class="time-taken-value" id="time-taken"></div>
                 </div>
             </div>
         </div>
-        <div class="restart-button" onclick=initializeGame()>Restart the game</div>
+        <button class="restart-button" id="restart-button">Restart the game</button>
         <div class="game-rules-container">
-            <div class="game-rules-title">Game rules :</div>
+            <div class="imp-rule-info">
+                <div>Press '1' to select tower 1, '2' to select tower 2, and '3' to select tower 3.</div>
+                <div>Press 'r' to restart the game.</div>
+            </div>
+            <div class="game-rules-title">Game rules:</div>
             <div class="game-rules">
                 <ul>
                     <li>Only one disc can be moved at a time.</li>
                     <li>A larger disc cannot be placed on top of a smaller disc.</li>
-                    <li>Only the top disc from any tower may be moved to another tower.</li>
-                    <li>Click on tower to select the top disc and drop it on another tower by clicking on it.</li>
-                    <li>Click on same tower to unselect the disc.</li>
-                    <li>Move all discs to last tower to finish the game.</li>
+                    <li>Only the top disc from each tower can be moved to another tower.</li>
+                    <li>Click on a tower to select the top disc, then drop it onto another tower.</li>
+                    <li>Click on the same tower to unselect the disc.</li>
+                    <li>Move all discs to the last tower to finish the game.</li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="disclaimer-container">
-        <div>Best played in desktop full screen mode.</div>
+        <div>Best played in desktop full-screen mode.</div>
     </div>
     <script src="script.js"></script>
 </body>
