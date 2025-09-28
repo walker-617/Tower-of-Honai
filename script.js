@@ -135,6 +135,7 @@ function handleTowerClick(towerId) {
         "Invalid move. Please select another tower.",
         "red"
       );
+      selectedTower = null;
     }
   } else {
     selectedTower = null;
